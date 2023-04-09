@@ -1,0 +1,2 @@
+# Ecommerse
+This ecommerce website is built using React, Node.js, MongoDB, and Express.js, with the added functionality of React Redux Toolkit and Redux Thunk. Users can register and login to access a range of features including browsing all available products, searching and filtering products, adding items to their cart, and making purchases.An admin can add, remove, edit products, and view their orders. The superadmin can access all registered users and admins, and is authorized to appoint new admins.
