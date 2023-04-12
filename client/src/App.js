@@ -10,6 +10,10 @@ import LoadingBar from 'react-top-loading-bar'
 import Products from './components/Product/Products';
 import Search from './components/Product/Search';
 import Demo from './components/demo';
+import Login from './components/User/Login';
+import Register from './components/User/Register';
+import Account from './components/Account';
+
 
 function App() {
   const [progress, setProgress] = useState(0)
@@ -34,9 +38,13 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/product/:id' element={<ProductDetails setProgress={ setProgress}/>}  />
+          <Route exact path='/products/product/:id' element={<ProductDetails setProgress={ setProgress}/>}  />
           <Route exact path='/products' element={<Products />} />
           <Route path='/products/:keyword' element={<Products />} />
           <Route exact path='/search' element={<Search />} />
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/register' element={<Register />} />
+          <Route exact path='/account' element={<Account />} />
         </Routes>
         <Footer/>
       </Router>
