@@ -5,12 +5,12 @@ const userRoutes = Router()
 
 userRoutes.post("/register",userRegistration)
 userRoutes.post("/login",userLogin)
-userRoutes.get("/logout",userLogout)
+userRoutes.post("/logout",userLogout)
 userRoutes.post("/password/forget",forgetPassword)               //link bej denge
 userRoutes.put("/password/reset/:token",resetPassword)           //link ko open karke password change kar paayenge
 userRoutes.put("/password/Update",isAuthenticatedUser,updatePassword)
 
-userRoutes.get("/me",isAuthenticatedUser,getUserDetails)
+userRoutes.post("/me",isAuthenticatedUser,getUserDetails)
 userRoutes.put("/me/Update",isAuthenticatedUser,updateProfile)
 
 userRoutes.get("/admin/users",isAuthenticatedUser,userRole("admin"),getAllUsers)

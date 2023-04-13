@@ -22,8 +22,8 @@ export const userRegistration = catchAsyncError(async (req, res, next) => {
     })
     await user.save()
 
-    // const token = user.getJwtToken()
-    // res.status(201).cookie("token")json({
+    const token = user.getJwtToken()
+    // res.status(201).cookie(token).json({
     //     success: true,
     //     user,
     //     token
@@ -58,9 +58,12 @@ export const userLogin = catchAsyncError(async (req, res, next) => {
 export const userLogout = catchAsyncError(async (req, res, next) => {
     res.cookie("token", null, {
         expires: new Date(Date.now()),
-        httpOnly: true
+        httpOnly: true,
+        Credential:true
 
     })
+
+
     res.status(200).json({
         success: true,
         message: "Logged Out"

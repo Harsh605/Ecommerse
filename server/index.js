@@ -14,8 +14,8 @@ dotenv.config()
 
 // unhandled Uncaught Exception   upper hi likhna shi nhi iske upper likha glat to wha se error aa jyega 
 // like console.log(hekfhs) 
-    
-process.on("uncaughtException",(err)=>{
+
+process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`)
     console.log("Shutting down there server due to unhandled uncaught exception ")
 })
@@ -24,15 +24,18 @@ const app = express()
 const DB_MONGOOSE = process.env.DB_MONGOOSE
 const PORT = process.env.PORT
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+}))
 app.use(express.json({
     limit: '50mb'
-  }))
+}))
 app.use(cookieParser())
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(fileUpload())
-app.use("/api/v1",routes)
-app.use("/api/v1",userRoutes)
+app.use("/api/v1", routes)
+app.use("/api/v1", userRoutes)
 app.use(Error)
 
 
@@ -40,7 +43,7 @@ mongoose.connect(DB_MONGOOSE)
     .then(
         console.log("Database is connected")
     )
-      //catch hta diya kyu ki ab humne unhandled error kar liya
+//catch hta diya kyu ki ab humne unhandled error kar liya
 
 
 cloudinary.config({
@@ -50,18 +53,18 @@ cloudinary.config({
 })
 
 
-const server= app.listen(PORT,()=>{
+const server = app.listen(PORT, () => {
     console.log(`The server is connected on PORT: ${PORT}`)
 })
 
 // unhandled Promise Rejection
-process.on("unhandledRejection",err=>{
+process.on("unhandledRejection", err => {
     console.log(`Error: ${err.message}`)
     console.log("Shutting down there server due to unhandled Promise ")
 
-    server.close(()=>{
+    server.close(() => {
         process.exit(1)
     })
-    
+
 })
 
