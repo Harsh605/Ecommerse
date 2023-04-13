@@ -12,18 +12,23 @@ import Search from './components/Product/Search';
 import Demo from './components/demo';
 import Login from './components/User/Login';
 import Register from './components/User/Register';
-import Account from './components/Account';
-
-
+import Profile from './components/Profile';
+import { useDispatch,useSelector } from 'react-redux';
+import { loadUser } from './slices/userSlice';
+import Secret from './components/secret/secret';
+import UserOptions from './components/Layouts/Header/UserOptions';
 function App() {
   const [progress, setProgress] = useState(0)
-  // useEffect(() => {
-  //   WebFont.load({
-  //     google: {
-  //       families: ["Roboto", "Droid Sans", "Chilanka"]
-  //     }
-  //   })
-  // }, [])
+  const dispatch = useDispatch()
+  const { isAuthenticated, error, isLoading, userData } = useSelector((state) => state.custom2)
+  useEffect(() => {
+    // WebFont.load({
+    //   google: {
+    //     families: ["Roboto", "Droid Sans", "Chilanka"]
+    //   }
+    // })
+      dispatch(loadUser())
+  }, [])
 
 
   return (
@@ -35,6 +40,7 @@ function App() {
         
       />
         <Header />
+         { isAuthenticated && <UserOptions userData={userData}/>}
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/product/:id' element={<ProductDetails setProgress={ setProgress}/>}  />
@@ -44,7 +50,8 @@ function App() {
           <Route exact path='/search' element={<Search />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
-          <Route exact path='/account' element={<Account />} />
+          {isAuthenticated?<Route exact path='/account' element={<Profile userData={userData} />} />:null}
+         {/* {isAuthenticated? <Route exact path='/secret' element={<Secret userData={userData}/>} />:null} */}
         </Routes>
         <Footer/>
       </Router>

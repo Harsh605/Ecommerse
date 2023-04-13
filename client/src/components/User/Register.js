@@ -12,7 +12,7 @@ const Register = () => {
 
     const [avatar, setAvatar] = useState(avatarImg)
     const [avatarPreview, setAvatarPreview] = useState(avatarImg)
-    const { isAuthenticated, isError, isLoading, data } = useSelector((state) => state.custom2)
+    const { isAuthenticated, error, isLoading, userData } = useSelector((state) => state.custom2)
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -42,14 +42,14 @@ const Register = () => {
     }
 
     useEffect(() => {
-        if (isError) {
+        // if (isError) {
             // dispatch(setError(data));
-        }
+        // }
         if (isAuthenticated) {
             navigate("/account")
         }
 
-    }, [navigate, isAuthenticated, isError])
+    }, [navigate, isAuthenticated])
     return (
         isLoading ?(<Backlog/>):
         <>
