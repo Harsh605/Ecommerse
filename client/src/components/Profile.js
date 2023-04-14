@@ -19,6 +19,7 @@ const Account = ({ userData }) => {
     bgcolor: 'background.paper',
   };
   return (
+    
     <>
       <div className="bg-white md:mx-auto rounded w-full  overflow-hidden mb-10">
         <div className="h-[200px] bg-gradient-to-r from-blue-200 to-purple-500"></div>
@@ -69,7 +70,7 @@ const Account = ({ userData }) => {
               <Divider />
             </div>
             <div className='flex justify-center gap-3 my-5'>
-            <Link to="/me/update" className='rounded-lg p-2 bg-sky-700 text-l mb-5 text-slate-200 font-medium hover:bg-sky-500'>Change Password</Link>
+            <Link to="/password/update" className='rounded-lg p-2 bg-sky-700 text-l mb-5 text-slate-200 font-medium hover:bg-sky-500'>Change Password</Link>
             <Link to="/orders" className='rounded-lg p-2 bg-sky-700 text-l mb-5 text-slate-200 font-medium hover:bg-sky-500'>My Orders</Link>
 
             </div>
