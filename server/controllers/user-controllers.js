@@ -33,11 +33,9 @@ export const userRegistration = catchAsyncError(async (req, res, next) => {
 
 export const userLogin = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body
-    console.log(email)
     // checking if user gave email and password both
 
     if (!email || !password) {
-        console.log("first")
         return next(new ErrorHandler("Please Enter Email and Password Both", 400))
     }
     const user = await User.findOne({ email }).select("+password")
@@ -82,9 +80,9 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
     const resetToken = await user.getResetPasswordToken()             //isko url ke sath bej sakte
     await user.save({ validateBeforeSave: false })              //isse hashtoken save ho jyeaga
 
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`
-    console.log(resetPasswordUrl)
-    const message = `Your Password reset Password token is:- \n\n ${resetPasswordUrl} \n\n if you have not requested this email then,please ignore it`;
+    // const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`           //ise deploy karte hue kar denge kyu ki route tab same ho jyenge
+    const resetPasswordUrl = `http://localhost:3000/password/reset/${resetToken}`
+    const message = `Your Password reset Password token iss:- \n\n ${resetPasswordUrl} \n\n if you have not requested this email then,please ignore it`;
 
     try {
         await sendEmail({
@@ -148,7 +146,6 @@ export const getUserDetails = catchAsyncError(async (req, res, next) => {
 // update password
 export const updatePassword = catchAsyncError(async (req, res, next) => {
     const { oldPassword, newPassword, confirmPassword } = req.body
-
     const user = await User.findById(req.user.id).select("+password")
 
     const isPasswordMatched = await user.comparePassword(oldPassword)
@@ -166,12 +163,32 @@ export const updatePassword = catchAsyncError(async (req, res, next) => {
 // update Profile  ------------------------idhar thoda difference h result m error bala
 export const updateProfile = catchAsyncError(async (req, res, next) => {
     //we will avatar later
+
+
+
     const newUserData = {
         name: req.body.name,
         email: req.body.email
     }
-    console.log(newUserData)
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    if(req.body.avatar){
+        const user = await User.findById(req.user.id)
+        const imageId = user.avatar.public_id
+        
+        await cloudinary.v2.uploader.destroy(imageId)
+
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
+            folder:"avatars",
+            width:150,
+            crop:"scale"
+        })
+
+        newUserData.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url
+        }
+
+    }
+     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false
