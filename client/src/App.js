@@ -94,21 +94,3 @@ function App() {
 export default App;
 
 
-
-// import Payment from './components/cart/Payment';
-
-  // const [stripeApiKey, setStripeApiKey] = useState("")
-
-  // const getStripeKey = async () => {
-  //   const config = { headers: { "Content-Type": "application/json" }, withCredentials: true };
-  //   const { data } = await axios.post("http://localhost:5500/api/v1/stripeApiKey", {}, config)
-  //   // setStripeApiKey(data.stripeApiKey)
-  // }
-    // getStripeKey()
-
-  // const stripePromise = loadStripe(stripeApiKey);
-  // console.log(stripePromise)
-
-{/* stripePromise && (
-          <Route exact path="/process/payment" element={<Elements stripe={stripePromise}><Payment /></Elements>} />
-          ) */}
