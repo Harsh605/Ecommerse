@@ -3,12 +3,14 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import cors from "cors"
 import routes from "./routes/ProductRoutes.js"
+import paymentRoutes from "./routes/paymentRoutes.js"
 import { Error } from "./middleware/error.js"
 import userRoutes from "./routes/userRoutes.js"
 import cookieParser from "cookie-parser"
 import cloudinary from "cloudinary"
 import bodyParser from "body-parser"
 import fileUpload from "express-fileupload"
+import Razorpay from "razorpay"
 
 dotenv.config()
 
@@ -36,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(fileUpload())
 app.use("/api/v1", routes)
 app.use("/api/v1", userRoutes)
+app.use("/api/v1", paymentRoutes)
 app.use(Error)
 
 
@@ -52,6 +55,11 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+
+export const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret:process.env.RAZORPAY_SECRET_KEY,
+  });
 
 const server = app.listen(PORT, () => {
     console.log(`The server is connected on PORT: ${PORT}`)
