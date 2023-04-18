@@ -71,27 +71,3 @@ export const paymentVerification = catchAsyncError(async (req, res, next) => {
 
 
 
-// import Stripe from "stripe"
-
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// export const processPayment = catchAsyncError(async (req, res, next) => {
-//     console.log(req.body.amount)
-//     const myPayment = await stripe.paymentIntents.create({
-//         currency: "inr",
-//         amount: 1999,
-//        automatic_payment_methods:{
-//         enabled:true
-//        }
-//     });
-
-//     res
-//     .status(200)
-//     .json({ success: true, client_secret: myPayment.client_secret });
-// })
-
-// export const sendStripeApiKey = catchAsyncError(async (req, res, next) => {
-//     res.status(200).json({
-//         stripeApiKey: process.env.STRIPE_API_KEY
-//     })
-// })
