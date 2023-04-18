@@ -81,13 +81,15 @@
   
   .detailsBlock-3-1-1 > input {
     border: none;
-    padding: 0.5vmax;
-    width: 1vmax;
+    width: 2vmax;
     text-align: center;
     outline: none;
-    font: 400 0.8vmax "Roboto";
+    font-family: "Roboto";
+    font-weight: 400;
     color: rgba(0, 0, 0, 0.74);
+    padding: 0;
   }
+  
   
   .detailsBlock-3-1 > button:last-child {
     border: none;

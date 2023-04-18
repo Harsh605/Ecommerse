@@ -1,18 +1,38 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ReactStars from "react-rating-stars-component"
-import {
-    getSingleProductsApi,
-} from "../../slices/ProductSlice";
+import { getSingleProductsApi } from "../../slices/ProductSlice";
 import "./ProductDetails.css";
 import Carousel from "react-material-ui-carousel";
+import { addItemsToCart, removeItemsFromCart } from "../../slices/addToCartSlice";
 
 const ProductDetails = ({ setProgress }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
     const { singleProductData, isLoading } = useSelector((state) => state.custom);
 
+    const [qty, setQty] = useState(1)
+
+    const handleIncrease = (e) => {
+        if(qty>=singleProductData.product.stock){
+            return
+        }
+        setQty(qty + 1)
+    }
+    const handleDecrease = (e) => {
+        if(qty<=1){
+            return
+        }
+        setQty(qty - 1)
+    }
+
+    const handleAddToCart=()=>{
+        dispatch(addItemsToCart({id,qty}))
+    }
+    const handleRemoveCart=()=>{
+        dispatch(removeItemsFromCart({id}))
+    }
 
 
     useEffect(() => {
@@ -63,15 +83,19 @@ const ProductDetails = ({ setProgress }) => {
                         <h1>{`₹${singleProductData.product.price}`}</h1>
                         <div className="detailsBlock-3-1">
                             <div className="detailsBlock-3-1-1">
-                                <button >-</button>
-                                <input readOnly type="number" />
-                                <button>+</button>
+                                <button onClick={handleDecrease}>-</button>
+                                <input type="number" readOnly value={qty} />
+
+                                <button onClick={handleIncrease}>+</button>
                             </div>
                             <button
-                                disabled={singleProductData.product.Stock < 1 ? true : false}
+                                disabled={singleProductData.product.stock < 1 ? true : false}
+                                onClick={handleAddToCart}
                             >
                                 Add to Cart
                             </button>
+
+                            
                         </div>
 
                         <p>
@@ -95,6 +119,7 @@ const ProductDetails = ({ setProgress }) => {
                     <button className="submitReview">Submit Review</button>
                 </div>
             </div>
+
         </Fragment>
     );
 };
